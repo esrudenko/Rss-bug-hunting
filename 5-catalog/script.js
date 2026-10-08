@@ -18,16 +18,15 @@ const countEl = document.getElementById("count");
 
 function getFiltered() {
   let result = products;
-  const search = searchInput.value;
+  const search = searchInput.value.toLowerCase().trim();
   const category = categorySelect.value;
   const sort = sortSelect.value;
-
   if (search) {
-    result = result.filter((p) => p.name === search);
+    result = result.filter((p) => p.name.toLowerCase().includes(search));
   }
 
   if (category !== "all") {
-    result = products.filter((p) => p.category !== category);
+    result = products.filter((p) => p.category === category);
   }
 
   if (sort === "asc") {
@@ -40,6 +39,7 @@ function getFiltered() {
 }
 
 function render() {
+  grid.replaceChildren();
   const items = getFiltered();
   items.forEach((p) => {
     const card = document.createElement("div");
@@ -57,3 +57,5 @@ sortSelect.addEventListener("change", render);
 resetBtn.addEventListener("click", () => {
   searchInput.value = "";
 });
+
+render();
