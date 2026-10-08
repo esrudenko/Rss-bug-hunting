@@ -131,3 +131,7 @@ body {
   background: #e2e8f0;
   color: #334155;
 }
+
+.completed {
+  text-decoration: line-through;
+}
