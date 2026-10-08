@@ -24,26 +24,34 @@ function addTask() {
 
 function toggleTask(id) {
   const task = tasks.find((t) => t.id === id);
-  task.done = true;
+  task.done = !task.done;
   render();
+  updateCounter();
 }
 
 function deleteTask(id) {
-  tasks.filter((t) => t.id !== id);
+  tasks = tasks.filter((t) => t.id !== id);
   render();
 }
 
 function clearCompleted() {
-  tasks = [];
+  tasks = tasks.filter((t) => !t.done);
   render();
 }
 
 function getVisibleTasks() {
-  return tasks;
+  if (currentFilter === "active") {
+    return tasks.filter((t) => !t.done)
+  } else if (currentFilter === "done") {
+    return tasks.filter((t) => t.done)
+  } else {
+    return tasks;
+  }
 }
 
 function updateCounter() {
-  counter.textContent = "Активных задач: " + tasks.length;
+  tasksActive = tasks.filter((t) => !t.done);
+  counter.textContent = "Актвиных задач: " + tasksActive.length;
 }
 
 function render() {
@@ -81,8 +89,14 @@ filterButtons.forEach((btn) => {
   btn.addEventListener("click", () => {
     filterButtons.forEach((b) => b.classList.remove("active"));
     btn.classList.add("active");
-    currentFilter = btn.dataset.filter;
-    render();
+    if (btn.dataset.filter === "active") {
+      currentFilter = "active";
+    } else if (btn.dataset.filter === "done") {
+      currentFilter = "done";
+    } else {
+      currentFilter = "all";
+    }
+  render();
   });
 });
 
