@@ -74,11 +74,13 @@ function applyPromo() {
   } else {
     discount = 0;
   }
+  promoInput.value = "";
   renderCart();
 }
 
 function clearCart() {
   cart = [];
+  applyPromo();
   renderCart();
 }
 
